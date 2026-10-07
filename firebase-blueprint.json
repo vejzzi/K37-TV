@@ -1,0 +1,62 @@
+{
+  "entities": {
+    "DaySchedule": {
+      "title": "DaySchedule",
+      "description": "Dnevni raspored emitovanja televizijskog programa",
+      "type": "object",
+      "properties": {
+        "dayId": { "type": "string" },
+        "dayName": { "type": "string" },
+        "shortName": { "type": "string" },
+        "dateString": { "type": "string" },
+        "isToday": { "type": "boolean" },
+        "programs": { "type": "array" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["dayId", "dayName", "programs"]
+    },
+    "NewsArticle": {
+      "title": "NewsArticle",
+      "description": "Novinarska vest ili prilog redakcije K37",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "summary": { "type": "string" },
+        "content": { "type": "string" },
+        "category": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "readTime": { "type": "string" },
+        "author": { "type": "string" },
+        "image": { "type": "string" },
+        "isBreaking": { "type": "boolean" },
+        "tags": { "type": "array" }
+      },
+      "required": ["id", "title", "summary", "category"]
+    },
+    "TickerSettings": {
+      "title": "TickerSettings",
+      "description": "Kajron vesti - pokretna info traka",
+      "type": "object",
+      "properties": {
+        "headlines": { "type": "array" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["headlines"]
+    }
+  },
+  "firestore": {
+    "/schedules/{dayId}": {
+      "schema": "DaySchedule",
+      "description": "Raspored emisija po danima u nedelji"
+    },
+    "/news/{newsId}": {
+      "schema": "NewsArticle",
+      "description": "Objavljeni novinarski članci i vesti"
+    },
+    "/settings/ticker": {
+      "schema": "TickerSettings",
+      "description": "Vesti za pokretnu traku (kajron)"
+    }
+  }
+}

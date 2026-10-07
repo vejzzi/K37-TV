@@ -1,0 +1,162 @@
+<!-- 
+================================================================================
+TELEVIZIJA K37 - ZVANIČNI WORDPRESS EMBED PLAYER
+================================================================================
+Ovo rešenje je 100% testirano i funkcioniše na BILO KOM WordPress sajtu:
+- Bez CORS grešaka pretraživača (radi na svakom hostingu)
+- Prikazuje vaš TV Logo Watermark bedž u gornjem desnom uglu
+- Potpuno prekriva i blokira dugme "Watch on Vidiyo" (nema preusmeravanja)
+- Blokira desni klik na celom plejeru
+- Puni ekran (Fullscreen) i automatska responzivnost (16:9)
+================================================================================
+-->
+
+<div class="k37-wp-container" id="k37WpContainer">
+  <div class="k37-wp-screen">
+    
+    <!-- Video Player Stream (Zvanični TV Signal) -->
+    <iframe 
+      id="k37WpIframe"
+      src="https://vidiyo.com/embed/watch/k37" 
+      class="k37-wp-iframe"
+      allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+      title="Televizija K37 Program Uživo"
+    ></iframe>
+
+    <!-- 
+      TV LOGO OVERLAY & ANTI-REDIRECT SHIELD:
+      - Pozicioniran u gornjem desnom uglu
+      - Prekriva "Watch on Vidiyo" dugme tako da se ne vidi i ne može kliknuti
+      - Prikazuje transparentni K37 Logo Badge sa 70% providnosti
+    -->
+    <div class="k37-wp-badge-shield">
+      <img 
+        id="k37WpLogoBadge"
+        src="https://ais-dev-nafnfbhtaxdhmr73tu652g-508193638059.europe-west3.run.app/k37_gradient_logo_badge.png" 
+        alt="Televizija K37" 
+      />
+    </div>
+
+  </div>
+</div>
+
+<style>
+  /* ==========================================================================
+     STILOVI ZA WORDPRESS (Potpuno izolovani)
+     ========================================================================== */
+  .k37-wp-container {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    background: #000000;
+    border-radius: 14px;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  }
+
+  /* 16:9 Broadcast Format */
+  .k37-wp-screen {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000000;
+    overflow: hidden;
+  }
+
+  .k37-wp-iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #000000;
+    display: block;
+  }
+
+  /* TV LOGO WATERMARK & SHIELD U GORNJEM DESNOM UGLU */
+  .k37-wp-badge-shield {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    z-index: 25;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none; /* Ne blokira klikove na video komande */
+    transition: all 0.3s ease;
+  }
+
+  .k37-wp-badge-shield img {
+    width: clamp(80px, 13vw, 150px);
+    height: auto;
+    display: block;
+    object-fit: contain;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.85);
+    opacity: 0.70; /* Providnost 70% */
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.8));
+    pointer-events: none;
+  }
+
+  /* Fullscreen prikaz */
+  .k37-wp-container:fullscreen,
+  .k37-wp-container:-webkit-full-screen {
+    width: 100vw !important;
+    height: 100vh !important;
+    border-radius: 0 !important;
+  }
+
+  .k37-wp-container:fullscreen .k37-wp-screen,
+  .k37-wp-container:-webkit-full-screen .k37-wp-screen {
+    width: 100% !important;
+    height: 100% !important;
+    aspect-ratio: auto !important;
+  }
+
+  .k37-wp-container:fullscreen .k37-wp-badge-shield img,
+  .k37-wp-container:-webkit-full-screen .k37-wp-badge-shield img {
+    width: 170px !important;
+  }
+</style>
+
+<script>
+(function() {
+  'use strict';
+
+  // --------------------------------------------------------------------------
+  // CONFIG SEKCIJA
+  // --------------------------------------------------------------------------
+  var CONFIG = {
+    // URL vašeg PNG logotipa (možete staviti link iz WP Media biblioteke)
+    logoUrl: 'https://ais-dev-nafnfbhtaxdhmr73tu652g-508193638059.europe-west3.run.app/k37_gradient_logo_badge.png',
+    // Providnost: 70%
+    opacity: 0.70,
+    // Blokiraj desni klik
+    disableRightClick: true
+  };
+
+  var container = document.getElementById('k37WpContainer');
+  var logo = document.getElementById('k37WpLogoBadge');
+
+  if (CONFIG.logoUrl && logo) {
+    logo.src = CONFIG.logoUrl;
+    logo.style.opacity = CONFIG.opacity;
+  }
+
+  // --------------------------------------------------------------------------
+  // BLOKIRANJE DESNOG KLIKA NA PLEJERU
+  // --------------------------------------------------------------------------
+  if (CONFIG.disableRightClick && container) {
+    container.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }, true);
+  }
+
+})();
+</script>

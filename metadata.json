@@ -1,0 +1,6 @@
+{
+  "name": "Televizija K37",
+  "description": "Zvanični portal Televizije K37. Program uživo, raspored emitovanja u realnom vremenu, najnovije vesti i arhiv emisija.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
